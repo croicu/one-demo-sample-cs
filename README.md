@@ -10,12 +10,6 @@ Sample C# service code for the one-demo scanner: a few typical components (an HT
 dotnet build
 ```
 
-## Run
-
-```bash
-dotnet run --project src/OneDemoSample
-```
-
 ## Lint
 
 ```bash
@@ -26,5 +20,4 @@ dotnet format
 
 ```bash
 dotnet test
-dotnet test --filter "FullyQualifiedName=Croicu.One.Demo.Sample.OneDemoSample.Tests.Unit.ProgramTests.Main_RunsClean"   # single test
 ```

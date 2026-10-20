@@ -4,9 +4,18 @@ Modules, data flow, and contracts for `one-demo-sample`.
 
 ## Modules
 
+`src/Services` (`Services.dll`, namespace `Croicu.One.Demo.Sample.Services`): sample service
+components that call other services over HTTP and retry on failure. References the ASP.NET Core
+shared framework; no dependency on `Base`.
+
+- `InventoryClient.cs`: a typed `HttpClient` for an inventory API, and the endpoint that uses it.
+- `StatusMonitor.cs`: a `BackgroundService` that polls an agent's status.
+- `ReconciliationJob.cs`: a scheduled job that reconciles ledger batches.
+- `ScheduledJob.cs`: the base class for scheduled jobs.
+
 <!-- One entry per file under src/Base/ (reusable scaffold: Logger/Settings/Errors/Interfaces,
-     compiled to its own Base.dll) and src/OneDemoSample/ (the CLI itself, references
-     Base.csproj): what it owns, what it depends on. -->
+     compiled to its own Base.dll) and src/Services/: what it owns, what it depends on. The
+     template's CLI app (src/OneDemoSample/) was removed as irrelevant to the demo. -->
 
 Base.dll is designed to be safe inside a service hosting multiple heterogeneous clients in one
 process, each "renting" its own `ExecutionContext` with independent settings/logging. See

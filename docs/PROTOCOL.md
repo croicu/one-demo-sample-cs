@@ -6,12 +6,9 @@ CLI signature and file format schemas for `one-demo-sample`.
 
 <!-- Command name, arguments, flags, exit codes. -->
 
-`src/OneDemoSample` accepts `--debug` (override `settings.json`'s `debug` flag), `--log <dir>`
-(write a timestamped log file into `<dir>`, creating it if missing, in addition to whatever
-console/debug sinks are already active; overrides `settings.json`'s `logDir` if both are given --
-see `docs/ARCHITECTURE.md`'s `FileLog`/`Correlation` entries for the sink itself and CLAUDE.md's
-Logging section for the file's line format), and `-h`/`--help` (print usage and exit 0). An
-unrecognized argument exits 2.
+None. This repo holds libraries only (`src/Base`, `src/Services`); the template's CLI app
+(`src/OneDemoSample`) was removed (Oct 20, 2026) as irrelevant to the demo. The settings sections
+below describe `Base`'s settings handling, which no executable here uses now.
 
 ## File formats
 

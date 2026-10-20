@@ -32,13 +32,6 @@
       "problemMatcher": []
     },
     {
-      "label": "publish",
-      "type": "shell",
-      "dependsOn": "rebuild",
-      "command": "dotnet publish src/OneDemoSample -c Release -o publish",
-      "problemMatcher": "$msCompile"
-    },
-    {
       "label": "zap",
       "type": "shell",
       "problemMatcher": [],

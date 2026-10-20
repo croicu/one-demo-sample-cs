@@ -1,17 +1,5 @@
 {
   "version": "0.2.0",
-  "configurations": [
-    {
-      "name": ".NET: Run (CLI)",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/out/Debug/net10.0/OneDemoSample.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}/src/OneDemoSample",
-      "console": "integratedTerminal",
-      "stopAtEntry": false
-    }
-  ],
+  "configurations": [],
   "inputs": []
 }

@@ -210,15 +210,11 @@ This is a namespace-only convention: it doesn't rename any `.csproj`, assembly, 
 # Build
 dotnet build
 
-# Run
-dotnet run --project src/OneDemoSample
-
 # Lint / format
 dotnet format
 
 # Test
 dotnet test
-dotnet test --filter "FullyQualifiedName=Croicu.One.Demo.Sample.OneDemoSample.Tests.Unit.ProgramTests.Main_RunsClean"   # single test
 
 ```
 
