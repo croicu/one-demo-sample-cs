@@ -1,4 +1,4 @@
-namespace Croicu.__project_namespace__.Base;
+namespace Croicu.One.Demo.Sample.Base;
 
 // Public contracts: persisted/shared data (plain classes/records, no behavior) plus behavioral
 // interfaces meant for a consumer to actually implement/inject (as opposed to Contracts.cs's

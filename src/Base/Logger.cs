@@ -1,6 +1,6 @@
-using Croicu.__project_namespace__.Base.Sinks;
+using Croicu.One.Demo.Sample.Base.Sinks;
 
-namespace Croicu.__project_namespace__.Base;
+namespace Croicu.One.Demo.Sample.Base;
 
 /// <summary>
 /// Not a closed set: category is an open string so callers can introduce new categories without

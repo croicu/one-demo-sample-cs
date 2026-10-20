@@ -1,7 +1,7 @@
-using Croicu.__project_namespace__.Base.Sinks;
-using Croicu.__project_namespace__.Mocks;
+using Croicu.One.Demo.Sample.Base.Sinks;
+using Croicu.One.Demo.Sample.Mocks;
 
-namespace Croicu.__project_namespace__.Base.Tests.Unit;
+namespace Croicu.One.Demo.Sample.Base.Tests.Unit;
 
 [TestClass]
 public sealed class ContextTests

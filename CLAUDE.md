@@ -4,13 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Mission
 
-__mission__
+This repo is a sample C# codebase that serves as a realistic scan target for the one-demo scanner. It holds a few deliberately typical service components -- an HTTP client calling a downstream service, a background monitor polling a dependency, and a scheduled job -- each of which calls other services and retries on failure. The point is to give the scanner representative, idiomatic patterns (outbound calls, retry loops, timeouts, error handling and logging) to analyze, so the code should read like real-world service code rather than contrived examples.
 
 ## Template Sync
 
 - **Source**: [croicu/tpl-cs](https://github.com/croicu/tpl-cs)
-- **Synced to**: <!-- SYNCED_TO --> (set by `tasks/repo_setup.md` at instantiation time; left
-  unset in `tpl-cs`'s own master copy of this file, since the source has nothing to sync against)
+- **Synced to**: 2026-10-20T17:02:14Z
 
 This repo is either `tpl-cs` itself or was generated from it. `tpl-cs`'s `ADDENDUM.md` is a
 curated, timestamped log of changes meant for downstream instances (new/changed rules,
@@ -178,25 +177,20 @@ After any change that affects the public interface, CLI, or file formats, update
 
 ## Namespaces
 
-Every project's C# namespace root is `Croicu.__project_namespace__.<Folder>`:
+Every project's C# namespace root is `Croicu.One.Demo.Sample.<Folder>`:
 
 - `Croicu` — fixed literal prefix, not a token. This template is scoped to a single owner, so every
   instantiation shares it.
-- `__project_namespace__` — a token, but **computed, not asked**: `__project_name__` (its
-  kebab-case value) with each hyphen-separated segment capitalized and joined by dots instead of
-  hyphens (e.g. `my-project` -> `My.Project`). Same treatment as `__upgrade_code__`/
-  `__vcxproj_guid__` in `tasks/repo_setup.md` — generate the value yourself from `__project_name__`,
-  don't add a ninth question for the user. It's written as a single token (no literal dots) so the
-  un-instantiated template still compiles — `__project_namespace__` alone is a valid C# identifier,
-  same reasoning as `__package_name__`/`__project_name__` themselves; the dots only appear once a
-  real value is substituted in.
+- `One.Demo.Sample` — derived from the project name `one-demo-sample` (kebab-case) by
+  capitalizing each hyphen-separated segment and joining them with dots instead of hyphens
+  (substituted from `tpl-cs`'s `__project_namespace__` token at instantiation time).
 - `<Folder>` — the literal folder name the project lives in under `src/` or `tests/` (e.g.
-  `src/__package_name__` -> `...__package_name__`, `src/Base` -> `...Base`, `tests/Mocks` ->
+  `src/OneDemoSample` -> `...OneDemoSample`, `src/Base` -> `...Base`, `tests/Mocks` ->
   `...Mocks`).
 
 Namespace nesting mirrors the actual project-reference graph — never an assumed app-centric
 hierarchy. Sibling folders under `src/`/`tests/` get sibling namespaces: `Base` is
-`Croicu.__project_namespace__.Base`, never `Croicu.__project_namespace__.__package_name__.Base`,
+`Croicu.One.Demo.Sample.Base`, never `Croicu.One.Demo.Sample.OneDemoSample.Base`,
 even though the app depends on `Base` — `Base` has no dependency back on the app, so nesting it
 underneath would misstate the relationship. The same goes for any other project that isn't the app
 itself (e.g. `tests/Mocks`, which only depends on `Base`): it gets its own top-level sibling
@@ -204,12 +198,11 @@ namespace from its own folder name, never nested under whichever project happens
 
 A test project's namespace is its corresponding `src/`-folder namespace with a `.Tests.Unit` (or
 `.Tests.Integration`) suffix — e.g. `tests/Base/Unit/*.cs` ->
-`Croicu.__project_namespace__.Base.Tests.Unit`, `tests/__package_name__/Unit/*.cs` ->
-`Croicu.__project_namespace__.__package_name__.Tests.Unit`.
+`Croicu.One.Demo.Sample.Base.Tests.Unit`, `tests/OneDemoSample/Unit/*.cs` ->
+`Croicu.One.Demo.Sample.OneDemoSample.Tests.Unit`.
 
 This is a namespace-only convention: it doesn't rename any `.csproj`, assembly, directory, or
-`InternalsVisibleTo` string — those stay exactly `__package_name__`/`Base`/`Mocks`/etc., per the
-token table in `tasks/repo_setup.md`.
+`InternalsVisibleTo` string — those stay exactly `OneDemoSample`/`Base`/`Mocks`/etc.
 
 ## Commands
 
@@ -218,22 +211,15 @@ token table in `tasks/repo_setup.md`.
 dotnet build
 
 # Run
-dotnet run --project src/__package_name__
+dotnet run --project src/OneDemoSample
 
 # Lint / format
 dotnet format
 
 # Test
 dotnet test
-dotnet test --filter "FullyQualifiedName=Croicu.__project_namespace__.__package_name__.Tests.Unit.ProgramTests.Main_RunsClean"   # single test
+dotnet test --filter "FullyQualifiedName=Croicu.One.Demo.Sample.OneDemoSample.Tests.Unit.ProgramTests.Main_RunsClean"   # single test
 
-# Build the Windows MSI installer (Windows-only, WiX cannot build on non-Windows hosts at all --
-# see installer/Setup.wixproj). Not part of the `dotnet build`/`test` commands above;
-# __project_name__.slnx does reference installer/Setup.vcxproj (a Solution Explorer-only shim
-# around the command below, see its own header comment) but with Build Project="false", so it's
-# excluded from `dotnet build __project_name__.slnx` and from a plain `dotnet build` too. Delete
-# `installer/` and its <Project> entry in the .slnx entirely if this instance doesn't want an MSI.
-dotnet build installer/Setup.wixproj
 ```
 
 ## Architecture conventions
@@ -255,9 +241,9 @@ dotnet build installer/Setup.wixproj
 3. `Contracts.cs` contains runtime behavioral interfaces (for things like workers/executors) that
    wire this project's *own* internals together — never referenced by external consumers, unlike
    `Interfaces.cs`'s behavioral interfaces above.
-4. Unit tests (`tests/Base/Unit/`, `tests/__package_name__/Unit/` — one test project per `src/`
+4. Unit tests (`tests/Base/Unit/`, `tests/OneDemoSample/Unit/` — one test project per `src/`
    project, mirroring the `Base`/app split) must run offline. Integration tests
-   (`tests/Base/Integration/`, `tests/__package_name__/Integration/`), if a project has them, may
+   (`tests/Base/Integration/`, `tests/OneDemoSample/Integration/`), if a project has them, may
    hit real external services — that's a deliberate scope split, not a loophole in rule 4.
    `dotnet test` (or `dotnet test <project-name>.slnx`) runs every test project's assembly by
    default regardless of folder, so adding an integration suite means accepting network calls in
@@ -279,7 +265,7 @@ dotnet build installer/Setup.wixproj
    the deliberate public surface — `public` is the opt-in, not the default, unlike loose
    file-per-script code where everything ends up accidentally public. If the internal
    implementation is substantial enough that `internal` alone isn't a strong enough signal, nest it
-   under a dedicated sub-namespace (e.g. `Croicu.__project_namespace__.__package_name__.Internal`) rather
+   under a dedicated sub-namespace (e.g. `Croicu.One.Demo.Sample.OneDemoSample.Internal`) rather
    than spreading it flat across the project root.
 9. **Keep the internal dependency graph acyclic — break cycles with an interface, not a runtime
    workaround.** If two concrete classes would otherwise need each other, introduce an interface
@@ -287,12 +273,12 @@ dotnet build installer/Setup.wixproj
    concrete type — this is the same seam rule 6's constructor-injection convention already creates,
    just framed as a graph property: depending on an abstraction instead of a concretion is what
    keeps the graph from looping back on itself. Verify this mechanically when it matters, not by
-   feel: list every file's `using Croicu.__project_namespace__.__package_name__...;` directives (`grep -E
-   "^using Croicu\.__project_namespace__\.__package_name__" -r src/`) and confirm no file is reachable from
+   feel: list every file's `using Croicu.One.Demo.Sample.OneDemoSample...;` directives (`grep -E
+   "^using Croicu\.One.Demo.Sample\.OneDemoSample" -r src/`) and confirm no file is reachable from
    itself by following them — this now spans a real project boundary too: `src/Base/`
-   (`Base.csproj`) must never reference `Croicu.__project_namespace__.__package_name__` (the app's own
-   namespace — a sibling of `Base`'s own `Croicu.__project_namespace__.Base`, not a parent of it), since
-   `src/__package_name__/` (`__package_name__.csproj`) already depends on
+   (`Base.csproj`) must never reference `Croicu.One.Demo.Sample.OneDemoSample` (the app's own
+   namespace — a sibling of `Base`'s own `Croicu.One.Demo.Sample.Base`, not a parent of it), since
+   `src/OneDemoSample/` (`OneDemoSample.csproj`) already depends on
    `Base.csproj` the other way. A passing test suite is not
    proof the graph is acyclic, since load-order luck can mask a real cycle. C# doesn't have
    Python's lazy-import escape hatch for masking a cycle at the language level (a circular
@@ -314,7 +300,7 @@ dotnet build installer/Setup.wixproj
     a sink instance is never shared across clients. A plain process-wide
     `static` field in `src/Base` is only correct for state that's genuinely meant to be shared by
     every client regardless of context (rare, and worth a comment explaining why when it happens) —
-    default to `AsyncLocal` for anything else, even if `src/__package_name__` (typically a
+    default to `AsyncLocal` for anything else, even if `src/OneDemoSample` (typically a
     single-tenant CLI) never itself exercises the multi-client scenario.
 
     **Known gap, deliberately deferred**: `ConsoleLog` now takes an injectable `TextWriter` (see
@@ -348,7 +334,7 @@ dotnet build installer/Setup.wixproj
 
 ## Logging
 
-- **Use `Logger`** (`Croicu.__project_namespace__.Base.Logger` — lives in the `src/Base` project, not the
+- **Use `Logger`** (`Croicu.One.Demo.Sample.Base.Logger` — lives in the `src/Base` project, not the
   app's own namespace) — not bare `Console.WriteLine`.
 - **`Console.*` is confined to `src/Base/Sinks/`** — the Logger's sink implementations
   (`DiagnosticsLog`/`ConsoleLog`) are the only place allowed to call
@@ -441,7 +427,7 @@ dotnet build installer/Setup.wixproj
 - **Explicit over brief** — if two implementations are equivalent, choose the one that is easier to read and debug, even if it is longer.
 - **No LINQ method chains for multi-step logic** — use explicit `foreach` loops. A chained `.Where().Select().Aggregate()` obscures control flow and makes multi-step logic harder to step through in a debugger, the same way the Python template this was ported from avoids comprehensions. A single, trivial operation (`.Any()`, `.Count()`, `.FirstOrDefault()` used plainly) isn't what this is aimed at — the line is "does stepping through this in a debugger actually show you what's happening."
 - **No lambdas for logic** — use named local functions or plain `foreach` loops instead of a lambda that does real work (a multi-line predicate, a callback with branching). Lambdas hide intent and cannot be stepped through as cleanly as a named method. This doesn't forbid trivial single-expression uses that are already idiomatic and inert (e.g. `default!`-style factory delegates with no branching).
-- **Namespace mirrors folder structure, file name matches type name** — when a project is split into a subfolder purely for logical grouping, extend the namespace to match the folder path and drop from the type/file name any suffix the folder already conveys. Concrete precedent: `src/Base/Sinks/ConsoleLog.cs` holds `class ConsoleLog` in namespace `Croicu.__project_namespace__.Base.Sinks`, not `ConsoleLogSink` in the flat `Croicu.__project_namespace__.Base` — the folder already says "Sinks", so repeating "Sink" in the class name is pure redundancy; the fully-qualified name carries the same information either way, just without repeating it. File name matches the type it holds (`ConsoleLogTests.cs` holds `ConsoleLogTests`; `Logger.cs` holds `Logger`, not `Diagnostics.cs`, once `Logger` became that file's sole real class). This doesn't necessarily apply to a subfolder that exists for a different reason (e.g. conditional per-platform compilation, where call sites select an implementation at build time rather than by namespace) — that's a judgment call for whoever adds such a folder, not a case to force into this convention.
+- **Namespace mirrors folder structure, file name matches type name** — when a project is split into a subfolder purely for logical grouping, extend the namespace to match the folder path and drop from the type/file name any suffix the folder already conveys. Concrete precedent: `src/Base/Sinks/ConsoleLog.cs` holds `class ConsoleLog` in namespace `Croicu.One.Demo.Sample.Base.Sinks`, not `ConsoleLogSink` in the flat `Croicu.One.Demo.Sample.Base` — the folder already says "Sinks", so repeating "Sink" in the class name is pure redundancy; the fully-qualified name carries the same information either way, just without repeating it. File name matches the type it holds (`ConsoleLogTests.cs` holds `ConsoleLogTests`; `Logger.cs` holds `Logger`, not `Diagnostics.cs`, once `Logger` became that file's sole real class). This doesn't necessarily apply to a subfolder that exists for a different reason (e.g. conditional per-platform compilation, where call sites select an implementation at build time rather than by namespace) — that's a judgment call for whoever adds such a folder, not a case to force into this convention.
 - **`Dir` vs `Path` naming** — a symbol whose value is a directory is named with a `Dir` suffix (`logDir` in `settings.json`, `LogDir` on `ISettingsProvider`/`Settings`, `--log <dir>`'s `LogDir` on `CliArguments`, `FileLog.Create(string logDir)`'s parameter); a symbol whose value is a full file name (directory plus file name, pointing at one specific file) is named with a `Path` suffix instead (e.g. `Settings.Load`'s `path`/`localPath`/`modulePath` parameters, `FileLog.Create`'s internal `logPath` local). Don't use "Path" loosely to mean "some filesystem location" — pick the suffix that says which of the two it actually is.
 - **`using`-directive count as SRP signal** — more than 5–10 `using` directives in a file is a hint that the file may be doing too much. Not a hard rule, but worth pausing to consider whether responsibilities should be split.
 - **Don't build a DI composition-root/factory prematurely** — the same wait-for-evidence judgment as the using-count signal applies to DI wiring. A constructor picking up its second or third injectable parameter (e.g. `Program(string[] argv, ISettingsProvider? provider = null)`) is not yet a smell; extracting a shared factory/helper from a single data point risks guessing at the wrong abstraction shape. Wait for real duplication — a second call site needing the same wiring, or a constructor parameter list that's genuinely grown unwieldy — before extracting one.
@@ -450,9 +436,6 @@ dotnet build installer/Setup.wixproj
 ## New Task
 
 ## Pending Tasks
-- **File**: [Repo Setup](tasks/repo_setup.md)
-- **Status**: Implementation
-- **Key Context**: This repo was generated from a template and still contains placeholder tokens. Replace them per that file's instructions, then delete it and this entry.
 
 ## Completed Tasks
 - **Port `tpl-py`'s template scaffold to C#** — [issue #1](https://github.com/croicu/tpl-cs/issues/1).

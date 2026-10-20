@@ -1,4 +1,4 @@
-namespace Croicu.__project_namespace__.Base.Sinks;
+namespace Croicu.One.Demo.Sample.Base.Sinks;
 
 /// <summary>
 /// Base sink: records everything into its own pending buffer (one per instance -- see

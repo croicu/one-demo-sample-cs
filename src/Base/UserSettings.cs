@@ -1,10 +1,10 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace Croicu.__project_namespace__.Base;
+namespace Croicu.One.Demo.Sample.Base;
 
 /// <summary>
-/// The per-user settings file, <c>%LOCALAPPDATA%\__project_name__\settings.json</c> (the platform's
+/// The per-user settings file, <c>%LOCALAPPDATA%\one-demo-sample\settings.json</c> (the platform's
 /// local application-data folder elsewhere): a writable tier that <see cref="Settings.Section"/>
 /// merges between the working-directory <c>settings.json</c> and <c>settings.local.json</c>. It exists
 /// for values only the user's own machine can know and that the program discovers at run time -- a
@@ -148,6 +148,6 @@ public static class UserSettings
     private static string? ComputeDefaultPath()
     {
         var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        return string.IsNullOrEmpty(localAppData) ? null : Path.Combine(localAppData, "__project_name__", "settings.json");
+        return string.IsNullOrEmpty(localAppData) ? null : Path.Combine(localAppData, "one-demo-sample", "settings.json");
     }
 }

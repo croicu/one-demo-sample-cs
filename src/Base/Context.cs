@@ -1,4 +1,4 @@
-namespace Croicu.__project_namespace__.Base;
+namespace Croicu.One.Demo.Sample.Base;
 
 /// <summary>
 /// Wires <see cref="Settings"/> (settings.json) into <see cref="Logger"/> as one step, and combines
@@ -77,7 +77,7 @@ public sealed class Context
     /// (unhandled, full stack trace) when debug is on, otherwise a logged error and exit code 1.
     ///
     /// <paramref name="appName"/> prefixes those two error-logging paths (e.g.
-    /// "__project_name__: error: ...") -- a required, explicit parameter rather than something
+    /// "one-demo-sample: error: ...") -- a required, explicit parameter rather than something
     /// <c>src/Base</c> could hardcode, since only the host knows its own name.
     ///
     /// <paramref name="run"/> reads <see cref="Settings.Current"/>/<see cref="Current"/> for

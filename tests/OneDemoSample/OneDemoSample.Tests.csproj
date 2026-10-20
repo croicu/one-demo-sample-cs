@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\__package_name__\__package_name__.csproj" />
+    <ProjectReference Include="..\..\src\OneDemoSample\OneDemoSample.csproj" />
     <ProjectReference Include="..\Mocks\Mocks.csproj" />
   </ItemGroup>
 

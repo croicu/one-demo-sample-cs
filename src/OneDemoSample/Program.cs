@@ -1,6 +1,6 @@
-using Croicu.__project_namespace__.Base;
+using Croicu.One.Demo.Sample.Base;
 
-namespace Croicu.__project_namespace__.__package_name__;
+namespace Croicu.One.Demo.Sample.OneDemoSample;
 
 public sealed record CliArguments(bool Debug = false, string? LogDir = null);
 
@@ -16,7 +16,7 @@ public static class Program
     internal static int Start(string[]? argv = null, string? settingsPath = null)
     {
         var arguments = ParseArgs(argv ?? Array.Empty<string>());
-        return Context.Start("__project_name__", settingsPath, arguments.Debug, arguments.LogDir, Run);
+        return Context.Start("one-demo-sample", settingsPath, arguments.Debug, arguments.LogDir, Run);
     }
 
     /// <summary>
@@ -26,8 +26,8 @@ public static class Program
     /// </summary>
     public static int Run()
     {
-        Logger.Info("__project_name__: started.");
-        Logger.Info("__project_name__: completed.");
+        Logger.Info("one-demo-sample: started.");
+        Logger.Info("one-demo-sample: completed.");
         return 0;
     }
 
@@ -52,7 +52,7 @@ public static class Program
             {
                 if (i + 1 >= argv.Length)
                 {
-                    Logger.Error("__project_name__: error: --log requires a directory argument");
+                    Logger.Error("one-demo-sample: error: --log requires a directory argument");
                     Environment.Exit(2);
                 }
 
@@ -60,9 +60,9 @@ public static class Program
             }
             else if (arg is "-h" or "--help")
             {
-                Logger.Print("usage: __project_name__ [--debug] [--log <dir>]");
+                Logger.Print("usage: one-demo-sample [--debug] [--log <dir>]");
                 Logger.Print(string.Empty);
-                Logger.Print("__description__");
+                Logger.Print("Sample C# service code for the one-demo scanner: a few typical components (an HTTP client, a background monitor, a scheduled job) that call other services and retry on failure.");
                 Logger.Print(string.Empty);
                 Logger.Print("options:");
                 Logger.Print("  --debug        override settings.json's debug flag");
@@ -72,7 +72,7 @@ public static class Program
             }
             else
             {
-                Logger.Error($"__project_name__: error: unrecognized argument: {arg}");
+                Logger.Error($"one-demo-sample: error: unrecognized argument: {arg}");
                 Environment.Exit(2);
             }
         }

@@ -1,14 +1,8 @@
-# __project_name__
+# one-demo-sample
 
-__description__
+Sample C# service code for the one-demo scanner: a few typical components (an HTTP client, a background monitor, a scheduled job) that call other services and retry on failure.
 
 ---
-
-## Setup
-
-This repo was generated from a template and still contains placeholder tokens
-(`__package_name__`, `__project_name__`, `__description__`, `__mission__`). See
-[tasks/repo_setup.md](tasks/repo_setup.md) for replacement instructions.
 
 ## Build
 
@@ -19,7 +13,7 @@ dotnet build
 ## Run
 
 ```bash
-dotnet run --project src/__package_name__
+dotnet run --project src/OneDemoSample
 ```
 
 ## Lint
@@ -32,5 +26,5 @@ dotnet format
 
 ```bash
 dotnet test
-dotnet test --filter "FullyQualifiedName=__package_name__.Tests.Unit.ProgramTests.Main_RunsClean"   # single test
+dotnet test --filter "FullyQualifiedName=Croicu.One.Demo.Sample.OneDemoSample.Tests.Unit.ProgramTests.Main_RunsClean"   # single test
 ```

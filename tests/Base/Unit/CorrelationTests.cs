@@ -1,4 +1,4 @@
-namespace Croicu.__project_namespace__.Base.Tests.Unit;
+namespace Croicu.One.Demo.Sample.Base.Tests.Unit;
 
 [TestClass]
 public sealed class CorrelationTests

@@ -1,4 +1,4 @@
-namespace Croicu.__project_namespace__.Base.Sinks;
+namespace Croicu.One.Demo.Sample.Base.Sinks;
 
 /// <summary>
 /// Console-printing sink with level/category filtering. See Settings.cs / CLAUDE.md's Logging

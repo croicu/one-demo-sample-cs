@@ -1,6 +1,6 @@
-using Croicu.__project_namespace__.Base.Sinks;
+using Croicu.One.Demo.Sample.Base.Sinks;
 
-namespace Croicu.__project_namespace__.Base.Tests.Unit;
+namespace Croicu.One.Demo.Sample.Base.Tests.Unit;
 
 [TestClass]
 public sealed class DebugLogTests

@@ -1,4 +1,4 @@
-namespace Croicu.__project_namespace__.Base.Sinks;
+namespace Croicu.One.Demo.Sample.Base.Sinks;
 
 /// <summary>
 /// Writes every message to the attached debugger's Debug Output window (via

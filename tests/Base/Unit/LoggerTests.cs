@@ -1,7 +1,7 @@
-using Croicu.__project_namespace__.Base;
-using Croicu.__project_namespace__.Base.Sinks;
+using Croicu.One.Demo.Sample.Base;
+using Croicu.One.Demo.Sample.Base.Sinks;
 
-namespace Croicu.__project_namespace__.Base.Tests.Unit;
+namespace Croicu.One.Demo.Sample.Base.Tests.Unit;
 
 /// <summary>
 /// Logger.SetLogger mutates the sink list, but that list is AsyncLocal-scoped (see Logger.cs)
@@ -335,11 +335,11 @@ public sealed class LoggerTests
         Logger.SetLogger(debugSink);
         try
         {
-            Logger.Print("usage: __project_name__ [--debug]");
+            Logger.Print("usage: one-demo-sample [--debug]");
 
-            Assert.AreEqual("usage: __project_name__ [--debug]" + Environment.NewLine, consoleWriter.ToString());
+            Assert.AreEqual("usage: one-demo-sample [--debug]" + Environment.NewLine, consoleWriter.ToString());
             Assert.HasCount(1, debugWritten);
-            Assert.AreEqual("usage: __project_name__ [--debug]", debugWritten[0]);
+            Assert.AreEqual("usage: one-demo-sample [--debug]", debugWritten[0]);
         }
         finally
         {

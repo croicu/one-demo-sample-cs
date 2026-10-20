@@ -1,11 +1,11 @@
 # ARCHITECTURE.md
 
-Modules, data flow, and contracts for `__project_name__`.
+Modules, data flow, and contracts for `one-demo-sample`.
 
 ## Modules
 
 <!-- One entry per file under src/Base/ (reusable scaffold: Logger/Settings/Errors/Interfaces,
-     compiled to its own Base.dll) and src/__package_name__/ (the CLI itself, references
+     compiled to its own Base.dll) and src/OneDemoSample/ (the CLI itself, references
      Base.csproj): what it owns, what it depends on. -->
 
 Base.dll is designed to be safe inside a service hosting multiple heterogeneous clients in one
@@ -26,7 +26,7 @@ operation, exposed via `Correlation.Current` -- flows to nested awaits/Tasks lik
 unrelated concurrent operation's. Its one consumer today is `FileLog` (below), which tags each line
 with it so a log file's interleaved lines (from concurrent operations, in a future multi-client
 host) can still be attributed. Deliberately its own leaf type rather than living on `Context`:
-`Context.Create` already constructs sinks from `Croicu.__project_namespace__.Base.Sinks`, so putting
+`Context.Create` already constructs sinks from `Croicu.One.Demo.Sample.Base.Sinks`, so putting
 the id there instead would make `Sinks` depend back on `Context` -- a cycle worth avoiding even
 within one project (Architecture convention 9).
 
@@ -40,7 +40,7 @@ resolve `Settings.LogDir` with a host's own `--log <dir>` CLI override (the over
 precedence when both are given, same direction as the debug override) into this sink, installed
 alongside whatever else is active when non-null.
 
-`src/Base/UserSettings.cs`: the per-user settings file, `%LOCALAPPDATA%\__project_name__\settings.json`
+`src/Base/UserSettings.cs`: the per-user settings file, `%LOCALAPPDATA%\one-demo-sample\settings.json`
 (`Environment.SpecialFolder.LocalApplicationData`, so also `~/.local/share` on Linux; `DefaultPath` is null,
 not a relative fallback, on a platform with no such folder). `Settings.Section()` merges it key-by-key between
 the working-directory `settings.json` and `settings.local.json`; `UserSettings.Set(section, key, value)` is the

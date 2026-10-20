@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Croicu.__project_namespace__.Base.Tests.Unit;
+namespace Croicu.One.Demo.Sample.Base.Tests.Unit;
 
 /// <summary>
 /// The per-user settings tier (<see cref="UserSettings"/> plus <see cref="Settings.Section"/>'s
@@ -119,7 +119,7 @@ public sealed class UserSettingsTests
     public void Set_NewFile_CreatesFolderAndFileAndReadsBackThroughSection()
     {
         var dir = NewDir();
-        var user = Path.Combine(dir, "nested", "__project_name__", "settings.json");
+        var user = Path.Combine(dir, "nested", "one-demo-sample", "settings.json");
 
         UserSettings.Set("prefs", "lastFile", "D:/data/file.txt", user);
 
@@ -255,6 +255,6 @@ public sealed class UserSettingsTests
             return;
         }
 
-        Assert.AreEqual(Path.Combine(local, "__project_name__", "settings.json"), UserSettings.DefaultPath);
+        Assert.AreEqual(Path.Combine(local, "one-demo-sample", "settings.json"), UserSettings.DefaultPath);
     }
 }

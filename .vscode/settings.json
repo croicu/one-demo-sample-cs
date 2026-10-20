@@ -1,5 +1,5 @@
 {
-  "dotnet.defaultSolution": "__project_name__.slnx",
+  "dotnet.defaultSolution": "one-demo-sample.slnx",
   "editor.formatOnSave": true,
   "omnisharp.enableRoslynAnalyzers": true
 }

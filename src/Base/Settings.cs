@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Croicu.__project_namespace__.Base;
+namespace Croicu.One.Demo.Sample.Base;
 
 /// <summary>
 /// Layered JSON settings: the module's own directory's <c>settings.json</c> (the base -- e.g. the

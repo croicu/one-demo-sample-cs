@@ -1,6 +1,6 @@
-using Croicu.__project_namespace__.Base;
+using Croicu.One.Demo.Sample.Base;
 
-namespace Croicu.__project_namespace__.Base.Tests.Unit;
+namespace Croicu.One.Demo.Sample.Base.Tests.Unit;
 
 /// <summary>
 /// Every test passes explicit path/localPath/modulePath (and, for Section(), userPath) arguments to Settings.Load()/Section()
@@ -35,12 +35,12 @@ public sealed class SettingsTests
     [TestMethod]
     public void Load_ExplicitLogDir_UsesConfiguredValue()
     {
-        var path = WriteTempSettingsFile("""{ "settings": { "logDir": "/var/log/__project_name__" } }""");
+        var path = WriteTempSettingsFile("""{ "settings": { "logDir": "/var/log/one-demo-sample" } }""");
         try
         {
             var settings = Settings.Load(path: path, localPath: NonExistentPath(), modulePath: NonExistentPath());
 
-            Assert.AreEqual("/var/log/__project_name__", settings.LogDir);
+            Assert.AreEqual("/var/log/one-demo-sample", settings.LogDir);
         }
         finally
         {

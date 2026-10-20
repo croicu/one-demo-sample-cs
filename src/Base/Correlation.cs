@@ -1,4 +1,4 @@
-namespace Croicu.__project_namespace__.Base;
+namespace Croicu.One.Demo.Sample.Base;
 
 /// <summary>
 /// AsyncLocal-scoped correlation id for the current logical operation -- Architecture convention
@@ -13,7 +13,7 @@ namespace Croicu.__project_namespace__.Base;
 /// which interleaved line. Deliberately its own leaf type rather than living on <see cref="Context"/>
 /// (which already exposes similar AsyncLocal-scoped ambient state): <see cref="Sinks.FileLog"/>
 /// needs to read it, and <see cref="Context.Create"/> already constructs sinks from
-/// <c>Croicu.__project_namespace__.Base.Sinks</c> -- putting it on <see cref="Context"/> instead
+/// <c>Croicu.One.Demo.Sample.Base.Sinks</c> -- putting it on <see cref="Context"/> instead
 /// would make <c>Sinks</c> depend back on <see cref="Context"/>, a cycle Architecture convention 9
 /// asks us to avoid even within one project.
 /// </summary>

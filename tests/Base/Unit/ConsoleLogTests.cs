@@ -1,7 +1,7 @@
-using Croicu.__project_namespace__.Base;
-using Croicu.__project_namespace__.Base.Sinks;
+using Croicu.One.Demo.Sample.Base;
+using Croicu.One.Demo.Sample.Base.Sinks;
 
-namespace Croicu.__project_namespace__.Base.Tests.Unit;
+namespace Croicu.One.Demo.Sample.Base.Tests.Unit;
 
 /// <summary>
 /// ConsoleLog.Create()/Dispose()'s InstanceActive guard is AsyncLocal-scoped (see

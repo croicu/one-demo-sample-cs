@@ -1,6 +1,6 @@
-using Croicu.__project_namespace__.Base.Sinks;
+using Croicu.One.Demo.Sample.Base.Sinks;
 
-namespace Croicu.__project_namespace__.Base.Tests.Unit;
+namespace Croicu.One.Demo.Sample.Base.Tests.Unit;
 
 /// <summary>
 /// Each test uses its own uniquely-named temp directory (deleted in a finally block, after the

@@ -1,6 +1,6 @@
-using Croicu.__project_namespace__.Base;
+using Croicu.One.Demo.Sample.Base;
 
-namespace Croicu.__project_namespace__.Mocks;
+namespace Croicu.One.Demo.Sample.Mocks;
 
 /// <summary>
 /// In-memory <see cref="ISettingsProvider"/> fake for tests -- no file I/O, unlike the real

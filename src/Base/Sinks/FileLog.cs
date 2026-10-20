@@ -1,4 +1,4 @@
-namespace Croicu.__project_namespace__.Base.Sinks;
+namespace Croicu.One.Demo.Sample.Base.Sinks;
 
 /// <summary>
 /// Writes every message to a file under a caller-supplied directory, named by the timestamp this
