@@ -1,5 +1,9 @@
 namespace Croicu.One.Demo.Sample.Services;
 
+/// <summary>
+/// Base class for scheduled jobs. Jobs derived from this class run with one replica fleet-wide:
+/// the scheduler starts a single instance per run, never one per host.
+/// </summary>
 public abstract class ScheduledJob
 {
     protected ScheduledJob(HttpClient ledger, string schedule)
