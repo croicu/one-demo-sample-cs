@@ -1,0 +1,39 @@
+<Project>
+
+  <!-- Imported at the END of each src/ project (unlike Directory.Build.props, imported at the
+       START, before a project's own PropertyGroup runs), so $(OutputType) below already has its
+       final value by the time this Condition evaluates; a Directory.Build.props-based version of
+       this same condition would silently never match, since OutputType isn't set yet at that
+       import point. Scoped to Exe/WinExe outputs, so Base.csproj itself (a Library) is excluded;
+       only __package_name__.csproj actually runs these targets. If this template instance ever
+       grows a second Exe project sharing the same output folder (src/Directory.Build.props'
+       BaseOutputPath), both would copy the same repo-root files into that same folder rather than
+       one clobbering the other's differently-sourced file.
+
+       Deliberately imperative Copy tasks, not declarative "None Include CopyToOutputDirectory"
+       items: an item like that, even declared here rather than directly in Base.csproj, still
+       propagates through ProjectReference to whatever references the owning project, and
+       __package_name__.Tests references __package_name__.csproj (for InternalsVisibleTo access),
+       so it leaked settings.json/settings.local.json into its own test bin too, corrupting test
+       isolation the same way putting the items directly in Base.csproj corrupted every test
+       project's isolation (confirmed empirically porting this fix from croicu/desk-tools). A Copy
+       task tied explicitly to $(OutDir)/$(PublishDir) only ever touches the owning project's own
+       output, never a referencing project's, since there's no item for MSBuild's cross-project
+       content-propagation machinery to discover. -->
+  <Target Name="CopySettingsToOutput" AfterTargets="Build" Condition="'$(OutputType)' == 'Exe' OR '$(OutputType)' == 'WinExe'">
+    <!-- The real, committed default config, always copied. -->
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\settings.json" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    <!-- Personal, gitignored dev override (see .gitignore), convenient to have alongside the app
+         in a local `dotnet build` output so running straight from out/ picks it up. Never copied to
+         $(PublishDir) (see CopySettingsToPublish below): installer/Setup.wixproj globs its entire
+         publish output into the installer, so a developer's own local override must never end up
+         there. Skipped entirely when absent, it's optional, a fresh checkout without one
+         shouldn't fail the build. -->
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\settings.local.json" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" Condition="Exists('$(MSBuildThisFileDirectory)..\settings.local.json')" />
+  </Target>
+
+  <Target Name="CopySettingsToPublish" AfterTargets="Publish" Condition="'$(OutputType)' == 'Exe' OR '$(OutputType)' == 'WinExe'">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\settings.json" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

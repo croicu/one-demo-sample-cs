@@ -1,0 +1,74 @@
+using Croicu.__project_namespace__.Base;
+
+namespace Croicu.__project_namespace__.Base.Tests.Unit;
+
+[TestClass]
+public sealed class ErrorsTests
+{
+    /// <summary>
+    /// AppError/TaskError log through Logger.Log(), which lazily creates Logger's default
+    /// ConsoleLog (see Logger.cs) if nothing else has already; nothing here ever disposes
+    /// it, so reset after each test to avoid leaving a live default that could make some other
+    /// test's own ConsoleLog.Create() throw.
+    /// </summary>
+    [TestCleanup]
+    public void Cleanup() => Logger.Reset();
+
+    [TestMethod]
+    public void AppError_RecordCapturesWarningLevelAndMessage()
+    {
+        var error = new TaskError("something went wrong");
+
+        Assert.AreEqual("something went wrong", error.Message);
+        Assert.AreEqual(TelemetryLevel.Warning, error.Record.Level);
+        Assert.AreEqual("something went wrong", error.Record.Message);
+        Assert.AreEqual(DiagnosticsCategories.General, error.Record.Category);
+    }
+
+    [TestMethod]
+    public void TaskError_IsAnAppError()
+    {
+        var error = new TaskError("oops");
+
+        Assert.IsInstanceOfType(error, typeof(AppError));
+    }
+
+    [TestMethod]
+    public void SettingsError_RecordCapturesSettingsCategory()
+    {
+        var error = new SettingsError("bad settings.json");
+
+        Assert.AreEqual(TelemetryLevel.Warning, error.Record.Level);
+        Assert.AreEqual("bad settings.json", error.Record.Message);
+        Assert.AreEqual(DiagnosticsCategories.Settings, error.Record.Category);
+    }
+
+    [TestMethod]
+    public void SettingsError_IsAnAppError()
+    {
+        var error = new SettingsError("oops");
+
+        Assert.IsInstanceOfType(error, typeof(AppError));
+    }
+
+    /// <summary>
+    /// Logger.Flush()/Clear() touch DiagnosticsLog's own pending buffer (see Sinks/DiagnosticsLog.cs),
+    /// which is per-instance -- nothing else running concurrently can be sharing this test's own
+    /// default ConsoleLog instance, so this test's records are isolated from an unrelated
+    /// concurrently-running test's own logging.
+    /// </summary>
+    [TestMethod]
+    public void TelemetrySession_DisposeFlushesAndClearsPendingBuffer()
+    {
+        Logger.Drain();
+
+        Logger.Log(TelemetryLevel.Info, "should be cleared by session disposal");
+
+        using (new TelemetrySession())
+        {
+        }
+
+        var remaining = Logger.Drain();
+        Assert.IsEmpty(remaining);
+    }
+}

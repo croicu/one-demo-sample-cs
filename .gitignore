@@ -1,0 +1,22 @@
+# Build artifacts
+bin/
+obj/
+dist/
+/out/
+/release/
+
+# FileLog output (settings.json's logDir / --log <dir>), when pointed at the repo root
+/Logs/
+
+# IDE
+.vs/
+*.user
+
+# Test results
+TestResults/
+
+# Claude Code
+.claude/
+
+# Local settings override (personal overrides, not committed)
+settings.local.json
